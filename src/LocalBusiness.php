@@ -3,62 +3,95 @@ namespace ITHilbert\Schema;
 
 use Illuminate\Support\Facades\Request;
 
+use ITHilbert\Schema\AggregateRating;
+use ITHilbert\Schema\FAQ;
+use ITHilbert\Schema\Offers;
+use ITHilbert\Schema\Review;
+
 class LocalBusiness{
-    public static function XXXLocalBusiness(){
-        $lb = '"@type": "LocalBusiness",';
-        $lb .= '"address": {';
-        $lb .= '"@type": "PostalAddress",';
-        $lb .= '"addressLocality": "'.config('site.ort').'",';
-        $lb .= '"postalCode": "'. config('site.plz').' ",';
-        $lb .= '"streetAddress": "'. config('site.strasse').'"';
-        $lb .= '},';
 
-        $lb .= '"aggregateRating": {';
-        $lb .= '"@type": "AggregateRating",';
-        $lb .= '"image": "'. asset('images/schema/5-stars.png') .'",';
-        $lb .= '"name": "Access Programmierung",';
-        $lb .= '"ratingValue": "5",';
-        $lb .= '"bestRating": "5",';
-        $lb .= '"ratingCount": "4"';
-        $lb .= '},';
+    public $url;                //URL
+    public $name;               //Name des LocalBusiness
+    public $addressLocality;    //Ort
+    public $postalCode;         //PLZ
+    public $streetAddress;      //Straße
+    public $openingHours;       //Öffnungszeiten
+    public $telephone;          //Telefonnummer
+    public $logo;               //Logo Image
+    public $image;              //image
 
-        $lb .= '"name": "IT-Hilbert GmbH",';
-        $lb .= '"openingHours": "Mo-Fr 10:00-16:00",';
-        $lb .= '"telephone": " +49 4344 - 3899378",';
-        $lb .= '"url": "'. config('site.domain1') .'",';
-        $lb .= '"logo": "'.asset('images/schema/logo-og-hilbert.jpg').'",';
-        $lb .= '"image": "'.asset('images/schema/foto-hilbert.jpg').'",';
-        $lb .= '"titel": "Ihr Access Programmierer",';
-        $lb .= '"price": "0",';
-        $lb .= '"priceRange": "0",';
+    public Review $review;
+    public AggregateRating $aggregateRating;
+    public Offers $offers;
+    public FAQ $faq;
 
-        $lb .= '"review": {';
-        $lb .= '"@type": "Review",';
-        $lb .= '"reviewRating": {';
-        $lb .= '"@type": "Rating",';
-        $lb .= '"ratingValue": "5",';
-        $lb .= '"bestRating": "5"';
-        $lb .= '},';
-        $lb .= '"author": {';
-        $lb .= '"@type": "Person",';
-        $lb .= '"name": "Max"';
-        $lb .= '}';
-        $lb .= '},';
+    public function __construct()
+    {
 
-        $lb .= '"offers": {';
-        $lb .= '"@type": "Offer",';
-        $lb .= '"url": "{{  Request::url() }}",';
-        $lb .= '"priceCurrency": "EUR",';
-        $lb .= '"price": "0",';
-        $lb .= '"priceValidUntil": "2023-02-09 18:11:42",';
-        $lb .= '"itemCondition": "https://schema.org/UsedCondition",';
-        $lb .= '"availability": "https://schema.org/InStock",';
-        $lb .= '"seller": {';
-        $lb .= '"@type": "Organization",';
-        $lb .= '"name": "it-hilbert.com"';
-        $lb .= '}';
-        $lb .= '}';
-
-        return $lb;
+        $this->url = config('schemaOrg.localBusiness.url','');
+        $this->name = config('schemaOrg.localBusiness.name','');
+        $this->addressLocality = config('schemaOrg.localBusiness.addressLocality','');
+        $this->postalCode = config('schemaOrg.localBusiness.postalCode','');
+        $this->streetAddress = config('schemaOrg.localBusiness.streetAddress','');
+        $this->openingHours = config('schemaOrg.localBusiness.openingHours','');
+        $this->telephone = config('schemaOrg.localBusiness.telephone','');
+        $this->logo = config('schemaOrg.localBusiness.logo','');
+        $this->image = config('schemaOrg.localBusiness.image','');
     }
+
+    public function useAggregateRating(){
+        $this->aggregateRating = new AggregateRating();
+    }
+    public function useFAQ(){
+        $this->faq = new FAQ();
+    }
+    public function useOffers(){
+        $this->offers = new Offers();
+    }
+    public function useReview(){
+        $this->review = new Review;
+        $this->review->itemReviewed = $this->name;
+        $this->review->itemReviewedType = "Organization";
+    }
+
+    public function getSchema(){
+        $schema = $this->start();
+        $schema .= "\t\t\t".'"@type": "LocalBusiness",'."\n";
+        $schema .= "\t\t\t".'"name": "'.$this->name.'",'."\n";
+        $schema .= "\t\t\t".'"address": {'."\n";
+        $schema .= "\t\t\t\t".'"@type": "PostalAddress",'."\n";
+        $schema .= "\t\t\t\t".'"addressLocality": "'.$this->addressLocality.'",'."\n";
+        $schema .= "\t\t\t\t".'"postalCode": "'. $this->postalCode.' ",'."\n";
+        $schema .= "\t\t\t\t".'"streetAddress": "'. $this->streetAddress.'"'."\n";
+        $schema .= "\t\t\t".'},'."\n";
+        if($this->openingHours != '') $schema .= "\t\t\t".'"openingHours": "'.$this->openingHours.'",'."\n";
+        if($this->telephone != '') $schema .= "\t\t\t".'"telephone": "'.$this->telephone.'",'."\n";
+        $schema .= "\t\t\t".'"url": "'. $this->url .'",'."\n";
+        if($this->logo != '') $schema .= "\t\t\t".'"logo": "'.asset($this->logo).'",'."\n";
+        if($this->image != '') $schema .= "\t\t\t".'"image": "'.asset($this->image).'",'."\n";
+
+        //Review
+        if(isset($this->review)) $schema .= $this->review->getSchema();
+        //AggregateRating
+        if(isset($this->aggregateRating)) $schema .= $this->aggregateRating->getSchema();
+        //offers
+        if(isset($this->offers)) $schema .= $this->offers->getSchema();
+        //faq
+        if(isset($this->faq)) $schema .= $this->faq->getSchema();
+
+        //Letzte Komma wieder entfernen
+        $schema = substr($schema, 0, -2) . "\n";
+        $schema .= $this->ende();
+
+        return $schema;
+    }
+
+    private function start(){
+        return "\t\t".'"LocalBusiness": {' . "\n";
+    }
+
+    private function ende(){
+        return "\t\t},\n";
+    }
+
 }

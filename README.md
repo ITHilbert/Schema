@@ -1,42 +1,59 @@
-# Site
+# Schema
 
-Eine Komponente die als Basis für den Inhalt eine Website dient.
-Diese soll in das Verzeichnis "packages" geclont werden.
+Klassen um meine Schema.org Jsons zu erstellen
 
 
 ## Installation
+In der composer.json folgendes einfügen:
 ```
-cd packages
-git clone https://github.com/ITHilbert/Site.git
+"require": {
+        "vendor/package-private": "*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "<repository-url>"
+        }
+    ]
 ```
-
-### Composer
+danach 
 ```
-"autoload": {
-     "psr-4": {
-         "App\\": "app/",
-         "ITHilbert\\": "packages/",
-         "ITHilbert\\Site\\": "packages/site/src/"
-     }
-},
+composer intsall
 ```
-
-### config/app.php
-Den Punkt Providers um folgenden Eintrag ergänzen:
+### copy config file
 ```
-\ITHilbert\Site\SiteServiceProvider::class,
-```
-
-### Git löschen
-```
-cd packages/site
-rm -Rf .git
+php artisan vendor:publish --provider="ITHilbert\Schema\SchemaServiceProvider" 
 ```
 
-### ToDo
+
+### config/schemaOrg.php
+Hier kann alles konfiguriert werden.
+
+## Beispiel:
+```
+use ITHilbert\Schema\Schema;
+
+...
+
+$schema = new Schema();
+$schema->useBreadcrumb();
+$schema->breadcrumb->add('Startseite', 'http://localhost:8000/');
+
+$schema->useLocalBusiness();
+$schema->localBusiness->useReview();
+$schema->localBusiness->useAggregateRating();
+
+$schema->localBusiness->useFAQ();
+$schema->localBusiness->faq->add('macht Ihr das auch', 'ja');
+
+echo $schema->getSchema();
+```
 
 
-### Author
+## ToDo
+
+
+## Author
 IT-Hilbert GmbH
 
 Access, Excel, VBA und Web Programmierungen

@@ -1,8 +1,6 @@
 <?php
 namespace ITHilbert\Schema;
 
-use Illuminate\Support\Facades\Request;
-
 class AggregateRating{
 
     public float $ratingValue;
@@ -11,18 +9,21 @@ class AggregateRating{
 
     public function __construct()
     {
-        $this->ratingValue = config('schemaOrg.aggregateRating.ratingValue');
-        $this->bestRating = config('schemaOrg.aggregateRating.bestRating');
-        $this->ratingCount = config('schemaOrg.aggregateRating.ratingCount');
+        $this->ratingValue = config('schemaOrg.aggregateRating.ratingValue',5);
+        $this->bestRating = config('schemaOrg.aggregateRating.bestRating',5);
+        $this->ratingCount = config('schemaOrg.aggregateRating.ratingCount',0);
     }
 
     public function getSchema(){
-        $ar = "\t\t". '"aggregateRating": {'."\n";
-        $ar .= "\t\t\t".'"@type": "AggregateRating",'."\n";
-        $ar .= "\t\t\t".'"ratingValue": "'. $this->ratingValue .'",'."\n";
-        $ar .= "\t\t\t".'"bestRating": "'. $this->bestRating .'",'."\n";
-        $ar .= "\t\t\t".'"ratingCount": "'. $this->ratingCount .'"'."\n";
-        $ar .= "\t\t".'},'."\n";
+        if( $this->ratingCount == 0){
+            return '';
+        }
+        $ar = "\t\t\t". '"aggregateRating": {'."\n";
+        $ar .= "\t\t\t\t".'"@type": "AggregateRating",'."\n";
+        $ar .= "\t\t\t\t".'"ratingValue": "'. $this->ratingValue .'",'."\n";
+        $ar .= "\t\t\t\t".'"bestRating": "'. $this->bestRating .'",'."\n";
+        $ar .= "\t\t\t\t".'"ratingCount": "'. $this->ratingCount .'"'."\n";
+        $ar .= "\t\t\t".'},'."\n";
 
         return $ar;
     }

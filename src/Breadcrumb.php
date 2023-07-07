@@ -3,6 +3,14 @@ namespace ITHilbert\Schema;
 
 use Illuminate\Support\Facades\Request;
 
+
+/**
+ * Beispiel:
+ * $bc = new SchemaBreadcrumb;
+ *   $bc->add('Startseite', 'http://localhost:8000/');
+ *   $bc->add('Page-1', 'http://localhost:8000/page-1');
+ *   $schema .= $bc->getSchema();
+ */
 class Breadcrumb{
 
     private $breadcrumbs = array();
