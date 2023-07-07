@@ -1,6 +1,6 @@
 <?php
 
-namespace ITHilbert\Site;
+namespace ITHilbert\Schema;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;

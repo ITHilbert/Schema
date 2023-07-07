@@ -7,14 +7,14 @@ Klassen um meine Schema.org Jsons zu erstellen
 In der composer.json folgendes einfügen:
 ```
 "require": {
-        "vendor/package-private": "*"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "<repository-url>"
-        }
-    ]
+    "ithilbert/schema": "*"
+},
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/ITHilbert/Schema.git"
+    }
+]
 ```
 danach 
 ```
