@@ -12,6 +12,11 @@ return [
     | Informationen für die Schema.org Profile
     |
     */
+    'breadcrumb' => [
+        'rootURL' => env('APP_URL'),
+        'rootName' => env('APP_NAME')
+    ],
+
     'review' => [
         'reviewBody' => '',
         'ratingValue' => "5",

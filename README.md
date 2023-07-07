@@ -37,7 +37,7 @@ use ITHilbert\Schema\Schema;
 
 $schema = new Schema();
 $schema->useBreadcrumb();
-$schema->breadcrumb->add('Startseite', 'http://localhost:8000/');
+$schema->breadcrumb->add('Page-1', 'http://localhost:8000/page-1');
 
 $schema->useLocalBusiness();
 $schema->localBusiness->useReview();

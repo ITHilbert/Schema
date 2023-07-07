@@ -26,6 +26,7 @@ class Schema{
     }
     public function useBreadcrumb(){
         $this->breadcrumb = new Breadcrumb();
+        $this->breadcrumb->add(config('schemaOrg.breadcrumb.rootName'), config('schemaOrg.breadcrumb.rootURL'));
     }
     public function useFAQ(){
         $this->faq = new FAQ();
