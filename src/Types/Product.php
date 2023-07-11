@@ -1,29 +1,49 @@
 <?php
-namespace ITHilbert\Schema;
+namespace ITHilbert\Schema\Types;
 
 use Illuminate\Support\Facades\Request;
 
-use ITHilbert\Schema\AggregateRating;
-use ITHilbert\Schema\FAQ;
-use ITHilbert\Schema\Offers;
-use ITHilbert\Schema\Review;
+use ITHilbert\Schema\Types\AggregateRating;
+use ITHilbert\Schema\Types\FAQ;
+use ITHilbert\Schema\Types\Offers;
+use ITHilbert\Schema\Types\Review;
 
 class Product{
 
-    public $product;
-    public $description;
-    public $image;
-    public $url;
-    public $brand;
+    private $name;
+    private $description;
+    private $image;
+    private $url;
+    private $brand;
 
     public Review $review;
     public AggregateRating $aggregateRating;
     public Offers $offers;
     public FAQ $faq;
 
-    public function __construct($productName, $description)
+    public function setName($name){
+        $this->name = $name;
+    }
+
+    public function setDescription($description){
+        $this->description = $description;
+    }
+
+    public function setImage($image){
+        $this->image = $image;
+    }
+
+    public function setURL($url){
+        $this->url = $url;
+    }
+
+    public function setBrand($brand){
+        $this->brand = $brand;
+    }
+
+    public function __construct($name, $description)
     {
-        $this->product = $productName;
+        $this->name = $name;
         $this->description = $description;
         $this->url = Request::url();
         $this->brand = config('schemaOrg.product.brand', '');
@@ -32,15 +52,18 @@ class Product{
     public function useAggregateRating(){
         $this->aggregateRating = new AggregateRating();
     }
+
     public function useFAQ(){
         $this->faq = new FAQ();
     }
+
     public function useOffers(){
         $this->offers = new Offers();
     }
+
     public function useReview(){
         $this->review = new Review;
-        $this->review->itemReviewed = $this->product;
+        $this->review->itemReviewed = $this->name;
         $this->review->itemReviewedType = "Product";
     }
 
@@ -55,7 +78,7 @@ class Product{
     public function getSchema(){
         $schema = $this->start();
         $schema .= "\t\t".'"@type": "Product",'."\n";
-        $schema .= "\t\t".'"name": "'.$this->product.'",'."\n";
+        $schema .= "\t\t".'"name": "'.$this->name.'",'."\n";
         $schema .= "\t\t".'"description": "'.$this->description.'",'."\n";
         $schema .= "\t\t".'"url": "'.$this->url.'",'."\n";
         if($this->image != '') $schema .= "\t\t".'"image": "'. asset($this->image).'",'."\n";

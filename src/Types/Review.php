@@ -1,7 +1,5 @@
 <?php
-namespace ITHilbert\Schema;
-
-use Illuminate\Support\Facades\Request;
+namespace ITHilbert\Schema\Types;
 
 class Review{
 
@@ -12,6 +10,34 @@ class Review{
     public $datePublished;
     public $itemReviewed;
     public $itemReviewedType;       //Organization / Product
+
+    public function ratingValue($ratingValue){
+        $this->ratingValue = $ratingValue;
+    }
+
+    public function bestRating($bestRating){
+        $this->bestRating = $bestRating;
+    }
+
+    public function namePerson($namePerson){
+        $this->namePerson = $namePerson;
+    }
+
+    public function reviewBody($reviewBody){
+        $this->reviewBody = $reviewBody;
+    }
+
+    public function datePublished($datePublished){
+        $this->datePublished = $datePublished;
+    }
+
+    public function itemReviewed($itemReviewed){
+        $this->itemReviewed = $itemReviewed;
+    }
+
+    public function itemReviewedType($itemReviewedType){
+        $this->itemReviewedType = $itemReviewedType;
+    }
 
 
     public function __construct()
@@ -27,7 +53,7 @@ class Review{
     public function getSchema(){
         $schema = "\t\t\t".'"review": {'."\n";
         $schema .= "\t\t\t\t".'"@type": "Review",'."\n";
-        if($this->itemReviewed != ''){
+        if($this->itemReviewed != '' && $this->itemReviewedType != ''){
             $schema .= "\t\t\t\t".'"itemReviewed": {'."\n";
             $schema .= "\t\t\t\t\t".'    "@type": "'.$this->itemReviewedType.'",'."\n";
             $schema .= "\t\t\t\t\t".'    "name": "'.$this->itemReviewed.'"'."\n";

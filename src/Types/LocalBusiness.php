@@ -1,33 +1,67 @@
 <?php
-namespace ITHilbert\Schema;
+namespace ITHilbert\Schema\Types;
 
-use Illuminate\Support\Facades\Request;
-
-use ITHilbert\Schema\AggregateRating;
-use ITHilbert\Schema\FAQ;
-use ITHilbert\Schema\Offers;
-use ITHilbert\Schema\Review;
+use ITHilbert\Schema\Types\AggregateRating;
+use ITHilbert\Schema\Types\FAQ;
+use ITHilbert\Schema\Types\Offers;
+use ITHilbert\Schema\Types\Review;
 
 class LocalBusiness{
 
-    public $url;                //URL
-    public $name;               //Name des LocalBusiness
-    public $addressLocality;    //Ort
-    public $postalCode;         //PLZ
-    public $streetAddress;      //Straße
-    public $openingHours;       //Öffnungszeiten
-    public $telephone;          //Telefonnummer
-    public $logo;               //Logo Image
-    public $image;              //image
+    private $url;                //URL
+    private $name;               //Name des LocalBusiness
+    private $addressLocality;    //Ort
+    private $postalCode;         //PLZ
+    private $streetAddress;      //Straße
+    private $openingHours;       //Öffnungszeiten
+    private $telephone;          //Telefonnummer
+    private $logo;               //Logo Image
+    private $image;              //image
 
     public Review $review;
     public AggregateRating $aggregateRating;
     public Offers $offers;
     public FAQ $faq;
 
+    public function setURL($url){
+        $this->url = $url;
+    }
+
+    public function setName($name){
+        $this->name = $name;
+    }
+
+    public function setAddressLocality($addressLocality){
+        $this->addressLocality = $addressLocality;
+    }
+
+    public function setPostalCode($postalCode){
+        $this->postalCode = $postalCode;
+    }
+
+    public function setStreetAddress($streetAddress){
+        $this->streetAddress = $streetAddress;
+    }
+
+    public function setOpeningHours($openingHours){
+        $this->openingHours = $openingHours;
+    }
+
+    public function setTelephone($telephone){
+        $this->telephone = $telephone;
+    }
+
+    public function setLogo($logo){
+        $this->logo = $logo;
+    }
+
+    public function setImage($image){
+        $this->image = $image;
+    }
+
+
     public function __construct()
     {
-
         $this->url = config('schemaOrg.localBusiness.url','');
         $this->name = config('schemaOrg.localBusiness.name','');
         $this->addressLocality = config('schemaOrg.localBusiness.addressLocality','');

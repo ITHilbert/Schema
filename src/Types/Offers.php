@@ -1,27 +1,90 @@
 <?php
-namespace ITHilbert\Schema;
+namespace ITHilbert\Schema\Types;
 
 use Illuminate\Support\Facades\Request;
 
 class Offers{
 
-    public $url;
-    public $priceCurrency;
-    public $price;
-    public $priceValidUntil;
-    public $availability;
-    public $itemCondition;
-    public $shippingDetails;
-    public $shippingRate;
-    public $deliveryTime;
-    public $shippingDestination;
-    public $hasMerchantReturnPolicy;
-    public $applicableCountry;
-    public $returnPolicyCategory;
-    public $seller;
+    private $url;
+    private $priceCurrency;
+    private $price;
+    private $priceValidUntil;
+    private $availability;
+    private $itemCondition;
+    private $shippingDetails;
+    private $shippingRate;
+    private $deliveryTime;
+    private $shippingDestination;
+    private $hasMerchantReturnPolicy;
+    private $applicableCountry;
+    private $returnPolicyCategory;
+    private $seller;
+    private $showShipping;
+    private $showReturnPolicy;
 
-    public $showShipping;
-    public $showReturnPolicy;
+    public function setURL($url){
+        $this->url = $url;
+    }
+
+    public function setPriceCurrency($priceCurrency){
+        $this->priceCurrency = $priceCurrency;
+    }
+
+    public function setPrice($price){
+        $this->price = $price;
+    }
+
+    public function setPriceValidUntil($priceValidUntil){
+        $this->priceValidUntil = $priceValidUntil;
+    }
+
+    public function setAvailability($availability){
+        $this->availability = $availability;
+    }
+
+    public function setItemCondition($itemCondition){
+        $this->itemCondition = $itemCondition;
+    }
+
+    public function setShippingDetails($shippingDetails){
+        $this->shippingDetails = $shippingDetails;
+    }
+
+    public function setShippingRate($shippingRate){
+        $this->shippingRate = $shippingRate;
+    }
+
+    public function setDeliveryTime($deliveryTime){
+        $this->deliveryTime = $deliveryTime;
+    }
+
+    public function setShippingDestination($shippingDestination){
+        $this->shippingDestination = $shippingDestination;
+    }
+
+    public function setHasMerchantReturnPolicy($hasMerchantReturnPolicy){
+        $this->hasMerchantReturnPolicy = $hasMerchantReturnPolicy;
+    }
+
+    public function setApplicableCountry($applicableCountry){
+        $this->applicableCountry = $applicableCountry;
+    }
+
+    public function setReturnPolicyCategory($returnPolicyCategory){
+        $this->returnPolicyCategory = $returnPolicyCategory;
+    }
+
+    public function setSeller($seller){
+        $this->seller = $seller;
+    }
+
+    public function setShowShipping($showShipping){
+        $this->showShipping = $showShipping;
+    }
+
+    public function setShowReturnPolicy($showReturnPolicy){
+        $this->showReturnPolicy = $showReturnPolicy;
+    }
 
     public function __construct()
     {

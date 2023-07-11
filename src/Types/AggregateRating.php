@@ -1,11 +1,24 @@
 <?php
-namespace ITHilbert\Schema;
+namespace ITHilbert\Schema\Types;
 
 class AggregateRating{
 
-    public float $ratingValue;
-    public float $bestRating;
-    public int $ratingCount;
+    private float $ratingValue;
+    private float $bestRating;
+    private int $ratingCount;
+
+    public function setRatingValue(float $ratingValue){
+        $this->ratingValue = $ratingValue;
+    }
+
+    public function setBestRating(float $bestRating){
+        $this->bestRating = $bestRating;
+    }
+
+    public function setRatingCount(int $ratingCount){
+        $this->ratingCount = $ratingCount;
+    }
+
 
     public function __construct()
     {

@@ -1,15 +1,13 @@
 <?php
 namespace ITHilbert\Schema;
 
-use Illuminate\Support\Facades\Request;
-use ITHilbert\Schema\Breadcrumb;
-
-use ITHilbert\Schema\FAQ;
-use ITHilbert\Schema\LocalBusiness;
-use ITHilbert\Schema\Product;
-use ITHilbert\Schema\AggregateRating;
-use ITHilbert\Schema\Offers;
-use ITHilbert\Schema\Review;
+use ITHilbert\Schema\Types\Breadcrumb;
+use ITHilbert\Schema\Types\FAQ;
+use ITHilbert\Schema\Types\LocalBusiness;
+use ITHilbert\Schema\Types\Product;
+use ITHilbert\Schema\Types\AggregateRating;
+use ITHilbert\Schema\Types\Offers;
+use ITHilbert\Schema\Types\Review;
 
 class Schema{
 
@@ -87,7 +85,7 @@ class Schema{
         return $schema;
     }
 
-    public function removeLastKomma($schema){
+    private function removeLastKomma($schema){
         //Letzte Komma wieder entfernen
         return substr($schema, 0, -2) . "\n";
     }

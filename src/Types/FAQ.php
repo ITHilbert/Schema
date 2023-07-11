@@ -1,5 +1,5 @@
 <?php
-namespace ITHilbert\Schema;
+namespace ITHilbert\Schema\Types;
 
 
 class FAQ{
