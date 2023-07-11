@@ -2,13 +2,13 @@
 namespace ITHilbert\Schema\Types;
 
 use Illuminate\Support\Facades\Request;
-
+use ITHilbert\Schema\Helper\SchemaOrg;
 use ITHilbert\Schema\Types\AggregateRating;
 use ITHilbert\Schema\Types\FAQ;
 use ITHilbert\Schema\Types\Offers;
 use ITHilbert\Schema\Types\Review;
 
-class Product{
+class Product extends SchemaOrg{
 
     private $name;
     private $description;

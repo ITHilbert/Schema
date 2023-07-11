@@ -1,8 +1,9 @@
 <?php
 namespace ITHilbert\Schema\Types;
 
+use ITHilbert\Schema\Helper\SchemaOrg;
 
-class FAQ{
+class FAQ extends SchemaOrg{
 
     private $faqs = array();
 

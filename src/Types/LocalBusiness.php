@@ -1,12 +1,13 @@
 <?php
 namespace ITHilbert\Schema\Types;
 
+use ITHilbert\Schema\Helper\SchemaOrg;
 use ITHilbert\Schema\Types\AggregateRating;
 use ITHilbert\Schema\Types\FAQ;
 use ITHilbert\Schema\Types\Offers;
 use ITHilbert\Schema\Types\Review;
 
-class LocalBusiness{
+class LocalBusiness extends SchemaOrg{
 
     private $url;                //URL
     private $name;               //Name des LocalBusiness

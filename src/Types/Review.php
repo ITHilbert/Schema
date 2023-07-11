@@ -1,7 +1,9 @@
 <?php
 namespace ITHilbert\Schema\Types;
 
-class Review{
+use ITHilbert\Schema\Helper\SchemaOrg;
+
+class Review extends SchemaOrg{
 
     public $ratingValue;
     public $bestRating;

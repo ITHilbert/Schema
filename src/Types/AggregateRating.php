@@ -1,7 +1,9 @@
 <?php
 namespace ITHilbert\Schema\Types;
 
-class AggregateRating{
+use ITHilbert\Schema\Helper\SchemaOrg;
+
+class AggregateRating extends SchemaOrg{
 
     private float $ratingValue;
     private float $bestRating;
@@ -40,4 +42,5 @@ class AggregateRating{
 
         return $ar;
     }
+
 }

@@ -1,25 +1,19 @@
 # Schema
 
-Klassen um meine Schema.org Jsons zu erstellen
+Klassen um meine Schema.org Jsons zu erstellen.
 
 
 ## Installation
-In der composer.json folgendes einfügen:
 ```
-"require": {
-    "ithilbert/schema": "*"
-},
-"repositories": [
-    {
-        "type": "vcs",
-        "url": "https://github.com/ITHilbert/Schema.git"
-    }
-]
+composer require ithilbert/schema
 ```
-danach 
+
+### config/app.php
+Unter Providern folgendes hinzufügen
 ```
-composer intsall
+\ITHilbert\Schema\SchemaServiceProvider::class,
 ```
+
 ### copy config file
 ```
 php artisan vendor:publish --provider="ITHilbert\Schema\SchemaServiceProvider" 
@@ -46,7 +40,7 @@ $schema->localBusiness->useAggregateRating();
 $schema->localBusiness->useFAQ();
 $schema->localBusiness->faq->add('macht Ihr das auch', 'ja');
 
-echo $schema->getSchema();
+echo $schema;
 ```
 
 

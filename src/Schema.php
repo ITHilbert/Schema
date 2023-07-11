@@ -1,6 +1,7 @@
 <?php
 namespace ITHilbert\Schema;
 
+use ITHilbert\Schema\Helper\SchemaOrg;
 use ITHilbert\Schema\Types\Breadcrumb;
 use ITHilbert\Schema\Types\FAQ;
 use ITHilbert\Schema\Types\LocalBusiness;
@@ -9,7 +10,8 @@ use ITHilbert\Schema\Types\AggregateRating;
 use ITHilbert\Schema\Types\Offers;
 use ITHilbert\Schema\Types\Review;
 
-class Schema{
+class Schema extends SchemaOrg
+{
 
     public AggregateRating $aggregateRating;
     public Breadcrumb $breadcrumb;
@@ -42,6 +44,11 @@ class Schema{
         $this->review = new Review;
         $this->review->itemReviewed = $itemReviewed;
         $this->review->itemReviewedType = $itemReviewedType;
+    }
+
+    public function __toString()
+    {
+        return $this->getSchema();
     }
 
     public function getSchema(){
@@ -85,8 +92,5 @@ class Schema{
         return $schema;
     }
 
-    private function removeLastKomma($schema){
-        //Letzte Komma wieder entfernen
-        return substr($schema, 0, -2) . "\n";
-    }
+
 }

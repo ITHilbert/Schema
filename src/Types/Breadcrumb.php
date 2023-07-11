@@ -1,7 +1,9 @@
 <?php
 namespace ITHilbert\Schema\Types;
 
-class Breadcrumb{
+use ITHilbert\Schema\Helper\SchemaOrg;
+
+class Breadcrumb extends SchemaOrg{
 
     private $breadcrumbs = array();
 
@@ -34,4 +36,5 @@ class Breadcrumb{
 
         return $schema;
     }
+
 }

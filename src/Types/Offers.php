@@ -2,8 +2,9 @@
 namespace ITHilbert\Schema\Types;
 
 use Illuminate\Support\Facades\Request;
+use ITHilbert\Schema\Helper\SchemaOrg;
 
-class Offers{
+class Offers extends SchemaOrg{
 
     private $url;
     private $priceCurrency;

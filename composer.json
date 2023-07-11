@@ -2,11 +2,11 @@
     "name": "ithilbert/schema",
     "type": "libary",
     "license": "MIT",
-    "description": "Neues Package für den Ihnalt einer Homepage",
+    "description": "Erstellen von Schema.org Jsons",
     "keywords": [
         "it-hilbert",
         "laravel",
-        "homepage"
+        "Schema.org"
     ],
     "authors": [{
         "name": "Jörg Hilbert",
