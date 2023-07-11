@@ -102,7 +102,7 @@ class Product extends SchemaOrg{
 
         //Letzte Komma wieder entfernen
         $schema = substr($schema, 0, -2) . "\n";
-        $schema = $this->ende();
+        $schema .= $this->ende();
 
         return $schema;
     }
