@@ -1,40 +1,41 @@
 <?php
+
 namespace ITHilbert\Schema\Types;
 
 use ITHilbert\Schema\Helper\SchemaOrg;
 
-class Breadcrumb extends SchemaOrg{
+class Breadcrumb extends SchemaOrg
+{
+    private $breadcrumbs = [];
 
-    private $breadcrumbs = array();
-
-    public function add($title, $url){
+    public function add($title, $url)
+    {
         $breadcrumb['name'] = $title;
         $breadcrumb['item'] = $url;
-        $breadcrumb['position'] = (count($this->breadcrumbs)+1);
+        $breadcrumb['position'] = (count($this->breadcrumbs) + 1);
 
         $this->breadcrumbs[] = $breadcrumb;
     }
 
-    public function getSchema(){
-        $schema = "\t\t".'"BreadcrumbList": {'. "\n";
-        $schema .= "\t\t\t".'"@type": "BreadcrumbList",'. "\n";
-        $schema .= "\t\t\t".'"itemListElement": ['. "\n";
-        foreach($this->breadcrumbs as $bc){
-            $schema .= "\t\t\t\t".'{'. "\n";
-            $schema .= "\t\t\t\t\t".'"@type": "ListItem",'. "\n";
-            $schema .= "\t\t\t\t\t".'"position": '.$bc['position'].','. "\n";
-            $schema .= "\t\t\t\t\t".'"name": "'.$bc['name'].'",'. "\n";
-            $schema .= "\t\t\t\t\t".'"item": "'.$bc['item'].'"'. "\n";
-            $schema .= "\t\t\t\t".'},'. "\n";
+    public function getSchema()
+    {
+        $schema = "\t\t".'"BreadcrumbList": {'."\n";
+        $schema .= "\t\t\t".'"@type": "BreadcrumbList",'."\n";
+        $schema .= "\t\t\t".'"itemListElement": ['."\n";
+        foreach ($this->breadcrumbs as $bc) {
+            $schema .= "\t\t\t\t".'{'."\n";
+            $schema .= "\t\t\t\t\t".'"@type": "ListItem",'."\n";
+            $schema .= "\t\t\t\t\t".'"position": '.$bc['position'].','."\n";
+            $schema .= "\t\t\t\t\t".'"name": "'.$this->e($bc['name']).'",'."\n";
+            $schema .= "\t\t\t\t\t".'"item": "'.$this->e($bc['item']).'"'."\n";
+            $schema .= "\t\t\t\t".'},'."\n";
         }
-        //Letzte Komma wieder entfernen
-        $schema = substr($schema, 0, -2) . "\n";
+        // Letzte Komma wieder entfernen
+        $schema = substr($schema, 0, -2)."\n";
 
-        $schema .= "\t\t\t".']'. "\n";          // Ende @type": "BreadcrumbList
-        $schema .= "\t\t".'},'. "\n";            // Ende BreadcrumbList
-
+        $schema .= "\t\t\t".']'."\n";          // Ende @type": "BreadcrumbList
+        $schema .= "\t\t".'},'."\n";            // Ende BreadcrumbList
 
         return $schema;
     }
-
 }

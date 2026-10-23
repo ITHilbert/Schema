@@ -1,46 +1,51 @@
 <?php
+
 namespace ITHilbert\Schema\Types;
 
 use ITHilbert\Schema\Helper\SchemaOrg;
 
-class AggregateRating extends SchemaOrg{
-
+class AggregateRating extends SchemaOrg
+{
     private float $ratingValue;
+
     private float $bestRating;
+
     private int $ratingCount;
 
-    public function setRatingValue(float $ratingValue){
+    public function setRatingValue(float $ratingValue)
+    {
         $this->ratingValue = $ratingValue;
     }
 
-    public function setBestRating(float $bestRating){
+    public function setBestRating(float $bestRating)
+    {
         $this->bestRating = $bestRating;
     }
 
-    public function setRatingCount(int $ratingCount){
+    public function setRatingCount(int $ratingCount)
+    {
         $this->ratingCount = $ratingCount;
     }
 
-
     public function __construct()
     {
-        $this->ratingValue = config('schemaOrg.aggregateRating.ratingValue',5);
-        $this->bestRating = config('schemaOrg.aggregateRating.bestRating',5);
-        $this->ratingCount = config('schemaOrg.aggregateRating.ratingCount',0);
+        $this->ratingValue = config('schemaOrg.aggregateRating.ratingValue', 5);
+        $this->bestRating = config('schemaOrg.aggregateRating.bestRating', 5);
+        $this->ratingCount = config('schemaOrg.aggregateRating.ratingCount', 0);
     }
 
-    public function getSchema(){
-        if( $this->ratingCount == 0){
+    public function getSchema()
+    {
+        if ($this->ratingCount == 0) {
             return '';
         }
-        $ar = "\t\t\t". '"aggregateRating": {'."\n";
+        $ar = "\t\t\t".'"aggregateRating": {'."\n";
         $ar .= "\t\t\t\t".'"@type": "AggregateRating",'."\n";
-        $ar .= "\t\t\t\t".'"ratingValue": "'. $this->ratingValue .'",'."\n";
-        $ar .= "\t\t\t\t".'"bestRating": "'. $this->bestRating .'",'."\n";
-        $ar .= "\t\t\t\t".'"ratingCount": "'. $this->ratingCount .'"'."\n";
+        $ar .= "\t\t\t\t".'"ratingValue": "'.$this->e($this->ratingValue).'",'."\n";
+        $ar .= "\t\t\t\t".'"bestRating": "'.$this->e($this->bestRating).'",'."\n";
+        $ar .= "\t\t\t\t".'"ratingCount": "'.$this->e($this->ratingCount).'"'."\n";
         $ar .= "\t\t\t".'},'."\n";
 
         return $ar;
     }
-
 }
