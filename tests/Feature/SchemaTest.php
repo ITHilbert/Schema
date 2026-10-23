@@ -176,6 +176,47 @@ final class SchemaTest extends TestCase
         $this->assertNotNull($json, 'Anfuehrungszeichen brechen das JSON');
     }
 
+    // Regression (Sicherheitsfix): Script-Ende im Text darf den ld+json-Block nicht verlassen
+    public function test_script_ende_in_faq_und_review_text_bricht_den_block_nicht_aus(): void
+    {
+        $angriff = '</script><script>alert(1)</script>';
+        $schema = new Schema;
+        $schema->useFAQ();
+        $schema->faq->add('Frage?', $angriff);
+        $schema->useReview('Firma', 'Organization');
+        $schema->review->reviewBody($angriff);
+
+        $ausgabe = $schema->getSchema();
+
+        $this->assertSame(1, substr_count($ausgabe, '</script>'), 'Zweites </script> in der Ausgabe');
+        $this->assertSame(1, substr_count($ausgabe, '<script'), 'Zweites <script in der Ausgabe');
+        $json = $this->jsonAus($ausgabe);
+        $this->assertNotNull($json, 'Block-Inhalt ist kein gueltiges JSON');
+        $this->assertSame($angriff, $json['FAQPage']['mainEntity'][0]['acceptedAnswer']['text']);
+        $this->assertSame($angriff, $json['review']['reviewBody']);
+    }
+
+    // Regression (Sicherheitsfix): Sonderzeichen bleiben im dekodierten Wert exakt erhalten
+    public function test_sonderzeichen_und_umlaute_bleiben_gueltiges_json(): void
+    {
+        $text = 'Tom & Jerry\'s <b>Café</b> äöüß';
+        $schema = new Schema;
+        $schema->useFAQ();
+        $schema->faq->add('Frage?', $text);
+        $schema->useReview('Firma', 'Organization');
+        $schema->review->reviewBody($text);
+
+        $ausgabe = $schema->getSchema();
+
+        $json = $this->jsonAus($ausgabe);
+        $this->assertNotNull($json);
+        $this->assertSame($text, $json['FAQPage']['mainEntity'][0]['acceptedAnswer']['text']);
+        $this->assertSame($text, $json['review']['reviewBody']);
+        $this->assertStringContainsString('äöüß', $ausgabe);
+        $this->assertStringNotContainsString('\\u00e4', $ausgabe);
+        $this->assertStringNotContainsString('<b>', $ausgabe);
+    }
+
     // Charakterisierung: Ohne veroeffentlichte Config bleibt der Wurzel-Breadcrumb leer
     public function test_breadcrumb_ohne_config_hat_leere_wurzel(): void
     {
