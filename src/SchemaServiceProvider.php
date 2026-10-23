@@ -3,11 +3,9 @@
 namespace ITHilbert\Schema;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
 
 class SchemaServiceProvider extends ServiceProvider
 {
-
     /**
      * Boot the application events.
      *
@@ -15,11 +13,9 @@ class SchemaServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //Config Datei kopieren
+        // Config Datei kopieren
         $this->publishes([
-            __DIR__ .'/Config/config.php' => config_path('schemaOrg.php')
+            __DIR__.'/Config/config.php' => config_path('schemaOrg.php'),
         ]);
     }
-
-
 }

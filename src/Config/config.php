@@ -1,7 +1,4 @@
 <?php
-use Illuminate\Support\Facades\Config;
-
-$site = include('site.php');
 
 return [
     /*
@@ -14,53 +11,52 @@ return [
     */
     'breadcrumb' => [
         'rootURL' => env('APP_URL'),
-        'rootName' => env('APP_NAME')
+        'rootName' => env('APP_NAME'),
     ],
 
     'review' => [
         'reviewBody' => '',
-        'ratingValue' => "5",
-        'bestRating' => "5",
+        'ratingValue' => '5',
+        'bestRating' => '5',
         'namePerson' => 'Max',
         'datePublished' => '',
     ],
 
     'aggregateRating' => [
-        'ratingValue' => "5",
-        "bestRating" => "5",
-        "ratingCount" => "10"
+        'ratingValue' => '5',
+        'bestRating' => '5',
+        'ratingCount' => '10',
     ],
 
     'product' => [
-        'brand' => 'brand'
+        'brand' => 'brand',
     ],
 
-
     'localBusiness' => [
-        //URL
-        'url' => $site['domain1'],
-        //Name des LocalBusiness
-        'name' => $site['firma'],
-        //Ort
-        'addressLocality' => $site['ort'],
-        //PLZ
-        'postalCode' => $site['plz'],
-        //Straße
-        'streetAddress' => $site['strasse'],
-        //Öffnungszeiten
-        'openingHours' => "Mo-Fr 10:00-16:00",
-        //Telefonnummer
-        'telephone' => $site['telefon2'],
-        //Logo
-        'logo' => $site['logo'],
-        //Image
+        // URL
+        'url' => env('APP_URL', ''),
+        // Name des LocalBusiness
+        'name' => env('APP_NAME', ''),
+        // Ort
+        'addressLocality' => '',
+        // PLZ
+        'postalCode' => '',
+        // Straße
+        'streetAddress' => '',
+        // Öffnungszeiten
+        'openingHours' => 'Mo-Fr 10:00-16:00',
+        // Telefonnummer
+        'telephone' => '',
+        // Logo
+        'logo' => '',
+        // Image
         'image' => '/img/image.png',
     ],
 
     'offers' => [
-        "price" => "0",                                 //Preis
-        "priceCurrency" => "EUR",                       //Währung "EUR", "USD" usw.
-        "priceValidUntil" => "2025-02-09 18:11:42",     //Bis Wann ist das Angebot gültig
+        'price' => '0',                                 // Preis
+        'priceCurrency' => 'EUR',                       // Währung "EUR", "USD" usw.
+        'priceValidUntil' => '2025-02-09 18:11:42',     // Bis Wann ist das Angebot gültig
         /* availability: Verfügbarkeit
             "Discontinued": Das Produkt ist nicht mehr verfügbar, da es eingestellt wurde.
             "InStock": Das Produkt ist auf Lager und sofort verfügbar.
@@ -71,13 +67,13 @@ return [
             "PreOrder": Das Produkt kann vorbestellt werden und wird zu einem späteren Zeitpunkt verfügbar sein.
             "PreSale": Das Produkt kann im Voraus gekauft werden, bevor es offiziell verfügbar ist.
             "SoldOut": Das Produkt ist ausverkauft und derzeit nicht verfügbar. */
-        "availability" => "InStock",
+        'availability' => 'InStock',
         /* itemCondition: Produkt Zustand
             "NewCondition": Das Produkt ist neu und unbenutzt.
             "UsedCondition": Das Produkt wurde zuvor verwendet, befindet sich jedoch in gutem Zustand.
             "RefurbishedCondition": Das Produkt wurde überarbeitet, repariert oder aufgearbeitet, um wieder funktionsfähig zu sein.
             "DamagedCondition": Das Produkt hat Schäden oder Mängel. */
-        'itemCondition' => "NewCondition",
+        'itemCondition' => 'NewCondition',
         'showShipping' => false,
         /* shippingDetails: Versand
             "shippingDestination" (Der Versand ist auf bestimmte Ziele beschränkt)
@@ -85,7 +81,7 @@ return [
             "shippingRate" (Ein spezifischer Versandpreis wird angegeben)
             "shippingSettings" (Allgemeine Versandeinstellungen oder -optionen) */
         'shippingDetails' => 'shippingSettings',
-        'shippingRate' => 'kostenloser Versand',            //Textfeld zu den Versandkosten
+        'shippingRate' => 'kostenloser Versand',            // Textfeld zu den Versandkosten
         /* deliveryTime: Lieferzeit
             "SameDay": Die Lieferung erfolgt am selben Tag, wenn die Bestellung vor einer bestimmten Uhrzeit aufgegeben wird.
             "NextDay": Die Lieferung erfolgt am nächsten Tag nach der Bestellung.
@@ -138,7 +134,7 @@ return [
             "https://schema.org/ExchangeRefund": Die Rückgaberichtlinie ermöglicht den Umtausch oder die Rückerstattung des Produkts.
             "https://schema.org/StoreCreditRefund": Die Rückgaberichtlinie ermöglicht eine Rückerstattung in Form von Ladenkredit.
             "https://schema.org/FullRefund": Die Rückgaberichtlinie gewährt eine volle Rückerstattung für das Produkt. */
-        'returnPolicyCategory' => 'https://schema.org/NonRefundable'
-    ]
+        'returnPolicyCategory' => 'https://schema.org/NonRefundable',
+    ],
 
 ];
