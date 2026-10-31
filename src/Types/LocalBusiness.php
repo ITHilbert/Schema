@@ -120,7 +120,7 @@ class LocalBusiness extends SchemaOrg
         $schema .= "\t\t\t".'"address": {'."\n";
         $schema .= "\t\t\t\t".'"@type": "PostalAddress",'."\n";
         $schema .= "\t\t\t\t".'"addressLocality": "'.$this->e($this->addressLocality).'",'."\n";
-        $schema .= "\t\t\t\t".'"postalCode": "'.$this->postalCode.' ",'."\n";
+        $schema .= "\t\t\t\t".'"postalCode": "'.$this->e($this->postalCode).'",'."\n";
         $schema .= "\t\t\t\t".'"streetAddress": "'.$this->e($this->streetAddress).'"'."\n";
         $schema .= "\t\t\t".'},'."\n";
         if ($this->openingHours != '') {
