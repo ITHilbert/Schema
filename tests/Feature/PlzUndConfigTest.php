@@ -12,7 +12,7 @@ use ITHilbert\Schema\Tests\TestCase;
 use Orchestra\Testbench\Attributes\DefineEnvironment;
 
 /**
- * PLZ im LocalBusiness (AK1, AK2) und zusammengeführte Paket-Config (AK3).
+ * PLZ im LocalBusiness (AK1, AK2) und Config-Randfälle (AK3 zurückgebaut).
  */
 final class PlzUndConfigTest extends TestCase
 {
@@ -109,31 +109,6 @@ final class PlzUndConfigTest extends TestCase
         $this->assertSame('', $this->plzAus($json));
     }
 
-    // AK3
-    public function test_config_enthaelt_ohne_veroeffentlichte_datei_die_paket_schluessel(): void
-    {
-        $paket = require __DIR__.'/../../src/Config/config.php';
-
-        // Gegenprobe: Der Aufbau hat keine eigene Test-Config gesetzt und keine veroeffentlichte Datei.
-        $this->assertFileDoesNotExist(config_path('schemaOrg.php'));
-        $this->assertArrayHasKey('localBusiness', $paket);
-
-        $this->assertIsArray(config('schemaOrg'), 'config(schemaOrg) ist nicht gesetzt');
-        $this->assertArrayHasKey('localBusiness', config('schemaOrg'));
-        $this->assertSame($paket['localBusiness']['openingHours'], config('schemaOrg.localBusiness.openingHours'));
-    }
-
-    // AK3
-    public function test_alle_obersten_schluessel_der_paket_config_sind_vorhanden(): void
-    {
-        $paket = require __DIR__.'/../../src/Config/config.php';
-
-        $this->assertIsArray(config('schemaOrg'), 'config(schemaOrg) ist nicht gesetzt');
-        foreach (array_keys($paket) as $schluessel) {
-            $this->assertArrayHasKey($schluessel, config('schemaOrg'));
-        }
-    }
-
     // Randfall: vendor:publish bleibt wie bisher
     public function test_vendor_publish_veroeffentlicht_die_config_weiter(): void
     {
@@ -153,23 +128,11 @@ final class PlzUndConfigTest extends TestCase
         $app['config']->set('schemaOrg', ['localBusiness' => ['postalCode' => '99999']]);
     }
 
-    // AK3
+    // Randfall: eigene Werte des Hosts gelten
     #[DefineEnvironment('eigeneHostConfig')]
     public function test_eigene_werte_des_hosts_gelten(): void
     {
         $this->assertSame('99999', config('schemaOrg.localBusiness.postalCode'));
         $this->assertSame(['postalCode' => '99999'], config('schemaOrg.localBusiness'));
-    }
-
-    // AK3
-    #[DefineEnvironment('eigeneHostConfig')]
-    public function test_nicht_gesetzte_oberste_schluessel_kommen_aus_dem_paket(): void
-    {
-        $paket = require __DIR__.'/../../src/Config/config.php';
-
-        // Gegenprobe: Der Host-Wert gilt, der Aufbau greift also.
-        $this->assertSame('99999', config('schemaOrg.localBusiness.postalCode'));
-        $this->assertArrayHasKey('breadcrumb', $paket);
-        $this->assertArrayHasKey('breadcrumb', config('schemaOrg'), 'Paket-Schluessel fehlen neben der Host-Config');
     }
 }
