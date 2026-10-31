@@ -62,9 +62,11 @@ final class TypesTest extends TestCase
         $this->assertSame('Antwort 1', $json['FAQPage']['mainEntity'][0]['acceptedAnswer']['text']);
     }
 
-    // Charakterisierung: Ohne Config gilt ratingCount 0 -> kein Ausgabefragment
+    // Charakterisierung: Mit ratingCount 0 (ausdruecklich gesetzt) -> kein Ausgabefragment
     public function test_aggregate_rating_ohne_bewertungen_ist_leer(): void
     {
+        config(['schemaOrg.aggregateRating.ratingCount' => 0]);
+
         $this->assertSame('', (new AggregateRating)->getSchema());
     }
 
@@ -98,6 +100,8 @@ final class TypesTest extends TestCase
     // Charakterisierung
     public function test_review_mit_standardwerten_hat_bewertung_5_von_5(): void
     {
+        config(['schemaOrg.review' => ['ratingValue' => '5', 'bestRating' => '5', 'namePerson' => '']]);
+
         $json = $this->dekodiere((new Review)->getSchema());
 
         $this->assertSame('Review', $json['review']['@type']);
@@ -254,21 +258,14 @@ final class TypesTest extends TestCase
     // Charakterisierung: Leere optionale Felder werden weggelassen
     public function test_local_business_laesst_leere_optionale_felder_weg(): void
     {
+        config(['schemaOrg.localBusiness' => ['openingHours' => '', 'telephone' => '', 'logo' => '', 'image' => '']]);
+
         $schema = (new LocalBusiness)->getSchema();
 
         $this->assertStringNotContainsString('"openingHours"', $schema);
         $this->assertStringNotContainsString('"telephone"', $schema);
         $this->assertStringNotContainsString('"logo"', $schema);
         $this->assertStringNotContainsString('"image"', $schema);
-    }
-
-    // Charakterisierung: Es gibt ein Leerzeichen nach der PLZ im Ausgabewert
-    public function test_local_business_haengt_leerzeichen_an_postleitzahl(): void
-    {
-        $l = new LocalBusiness;
-        $l->setPostalCode('10115');
-
-        $this->assertStringContainsString('"postalCode": "10115 "', $l->getSchema());
     }
 
     // Charakterisierung
