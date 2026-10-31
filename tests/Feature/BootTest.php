@@ -19,7 +19,7 @@ final class BootTest extends TestCase
         $this->assertArrayHasKey(SchemaServiceProvider::class, $this->app->getLoadedProviders());
     }
 
-    // Charakterisierung: Config wird nur veroeffentlicht, nicht zusammengefuehrt
+    // Randfall 3 (AK3 zurückgebaut)
     public function test_config_schema_org_ist_ohne_veroeffentlichung_nicht_gesetzt(): void
     {
         $this->assertNull(config('schemaOrg'));
