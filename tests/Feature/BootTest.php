@@ -37,8 +37,7 @@ final class BootTest extends TestCase
         $this->assertFileExists((string) array_key_first($pfade));
     }
 
-    // OFFEN-1 (roter Test, Defekt): Die Config-Vorlage bindet per relativem Pfad 'site.php' ein,
-    // die Datei existiert im Paket nicht. Eine veroeffentlichte Config ist so nicht ladbar.
+    // Charakterisierung: Die Config-Vorlage ist ohne weitere Dateien ladbar.
     public function test_config_vorlage_laesst_sich_laden(): void
     {
         $config = require __DIR__.'/../../src/Config/config.php';

@@ -13,6 +13,21 @@ use Orchestra\Testbench\TestCase as Orchestra;
  */
 abstract class TestCase extends Orchestra
 {
+    /** Eigenes Config-Verzeichnis je Test: Tests schreiben nie ins geteilte Testbench-Skelett. */
+    private string $eigenerConfigPfad = '';
+
+    protected function tearDown(): void
+    {
+        if ($this->eigenerConfigPfad !== '' && is_dir($this->eigenerConfigPfad)) {
+            foreach (glob($this->eigenerConfigPfad.'/*') ?: [] as $datei) {
+                @unlink($datei);
+            }
+            @rmdir($this->eigenerConfigPfad);
+        }
+
+        parent::tearDown();
+    }
+
     /**
      * @param  Application  $app
      * @return array<int, class-string>
@@ -29,6 +44,10 @@ abstract class TestCase extends Orchestra
      */
     protected function defineEnvironment($app): void
     {
+        $this->eigenerConfigPfad = sys_get_temp_dir().'/schema-test-config-'.getmypid().'-'.bin2hex(random_bytes(4));
+        mkdir($this->eigenerConfigPfad, 0777, true);
+        $app->useConfigPath($this->eigenerConfigPfad);
+
         $app['config']->set('app.key', 'base64:'.base64_encode(str_repeat('a', 32)));
         $app['config']->set('database.default', 'testing');
         $app['config']->set('database.connections.testing', [
