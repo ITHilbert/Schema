@@ -14,7 +14,6 @@ use ITHilbert\Schema\Types\LocalBusiness;
 use ITHilbert\Schema\Types\Offers;
 use ITHilbert\Schema\Types\Product;
 use ITHilbert\Schema\Types\Review;
-use Orchestra\Testbench\Attributes\WithConfig;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -81,38 +80,69 @@ final class ConfigMergeTest extends TestCase
         }
     }
 
-    // AK2
-    #[WithConfig('schemaOrg.review', ['ratingValue' => '4'])]
-    #[WithConfig('schemaOrg.aggregateRating', ['ratingValue' => '4'])]
-    #[WithConfig('schemaOrg.localBusiness', ['postalCode' => '99999'])]
-    public function test_gruppe_des_hosts_ersetzt_die_paket_gruppe_vollstaendig(): void
+    /**
+     * Setzt die Config des Hosts (nur diese Gruppen) und fuehrt danach die Paket-Config
+     * erneut zusammen - so steht die Host-Config nachweislich VOR dem Zusammenfuehren.
+     *
+     * @param  array<string, array<string, mixed>>  $hostGruppen
+     */
+    private function hostConfigVorDemZusammenfuehren(array $hostGruppen): void
     {
-        $this->assertSame(['ratingValue' => '4'], config('schemaOrg.review'));
-        $this->assertSame(['postalCode' => '99999'], config('schemaOrg.localBusiness'));
-        $this->assertArrayNotHasKey('bestRating', (array) config('schemaOrg.review'));
-        $this->assertArrayNotHasKey('namePerson', (array) config('schemaOrg.review'));
+        config()->set('schemaOrg', $hostGruppen);
+        $this->assertSame(array_keys($hostGruppen), array_keys((array) config('schemaOrg')), 'Aufbau: nur Host-Gruppen vor dem Zusammenfuehren');
+
+        (new SchemaServiceProvider($this->app))->register();
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    private function hostGruppen(): array
+    {
+        return [
+            'review' => ['ratingValue' => '4'],
+            'aggregateRating' => ['ratingValue' => '4'],
+            'localBusiness' => ['postalCode' => '99999'],
+        ];
     }
 
     // AK2
-    #[WithConfig('schemaOrg.review', ['ratingValue' => '4'])]
-    #[WithConfig('schemaOrg.aggregateRating', ['ratingValue' => '4'])]
-    #[WithConfig('schemaOrg.localBusiness', ['postalCode' => '99999'])]
+    public function test_gruppe_des_hosts_ersetzt_die_paket_gruppe_vollstaendig(): void
+    {
+        $paket = $this->paketConfig();
+        $this->assertArrayHasKey('bestRating', $paket['review'], 'Aufbau: Paket-Gruppe hat weitere Schluessel');
+        $this->assertArrayHasKey('namePerson', $paket['review']);
+
+        $this->hostConfigVorDemZusammenfuehren($this->hostGruppen());
+
+        $this->assertSame(['ratingValue' => '4'], config('schemaOrg.review'));
+        $this->assertSame(['ratingValue' => '4'], config('schemaOrg.aggregateRating'));
+        $this->assertSame(['postalCode' => '99999'], config('schemaOrg.localBusiness'));
+        $this->assertArrayNotHasKey('bestRating', (array) config('schemaOrg.review'));
+        $this->assertArrayNotHasKey('namePerson', (array) config('schemaOrg.review'));
+        $this->assertArrayNotHasKey('ratingCount', (array) config('schemaOrg.aggregateRating'));
+        $this->assertArrayNotHasKey('url', (array) config('schemaOrg.localBusiness'));
+    }
+
+    // AK2
     public function test_nicht_vom_host_gesetzte_gruppen_kommen_aus_dem_paket(): void
     {
+        $this->hostConfigVorDemZusammenfuehren($this->hostGruppen());
         $paket = $this->paketConfig();
 
         $this->assertSame($paket['product'], config('schemaOrg.product'));
         $this->assertSame($paket['offers'], config('schemaOrg.offers'));
         $this->assertSame($paket['breadcrumb'], config('schemaOrg.breadcrumb'));
         $this->assertSame('EUR', config('schemaOrg.offers.priceCurrency'));
+        // Gegenprobe: die Host-Gruppen sind nicht durch Paket-Gruppen ersetzt
+        $this->assertSame(['postalCode' => '99999'], config('schemaOrg.localBusiness'));
     }
 
     // AK2
-    #[WithConfig('schemaOrg.review', ['ratingValue' => '4'])]
-    #[WithConfig('schemaOrg.aggregateRating', ['ratingValue' => '4'])]
-    #[WithConfig('schemaOrg.localBusiness', ['postalCode' => '99999'])]
     public function test_host_werte_gelten_in_der_ausgabe(): void
     {
+        $this->hostConfigVorDemZusammenfuehren($this->hostGruppen());
+
         $schema = new Schema;
         $schema->useAggregateRating();
         $schema->useLocalBusiness();
