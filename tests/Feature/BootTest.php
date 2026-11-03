@@ -19,10 +19,13 @@ final class BootTest extends TestCase
         $this->assertArrayHasKey(SchemaServiceProvider::class, $this->app->getLoadedProviders());
     }
 
-    // Randfall 3 (AK3 zurückgebaut)
-    public function test_config_schema_org_ist_ohne_veroeffentlichung_nicht_gesetzt(): void
+    // AK1 (schema-config-merge). Der frühere Test "Config ohne Veröffentlichung nicht gesetzt"
+    // (Randfall 3 der Spec schema-plz-config, AK3 zurückgebaut) widerspricht AK1 der Spec
+    // schema-config-merge: die Paket-Config wird jetzt zusammengeführt.
+    public function test_config_schema_org_ist_ohne_veroeffentlichung_zusammengefuehrt(): void
     {
-        $this->assertNull(config('schemaOrg'));
+        $this->assertIsArray(config('schemaOrg'));
+        $this->assertArrayHasKey('review', config('schemaOrg'));
     }
 
     // Charakterisierung
