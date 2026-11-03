@@ -6,6 +6,11 @@ use Illuminate\Support\ServiceProvider;
 
 class SchemaServiceProvider extends ServiceProvider
 {
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__.'/Config/config.php', 'schemaOrg');
+    }
+
     /**
      * Boot the application events.
      *

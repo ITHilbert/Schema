@@ -16,20 +16,20 @@ return [
 
     'review' => [
         'reviewBody' => '',
-        'ratingValue' => '5',
+        'ratingValue' => '',        // Beispiel: '5'
         'bestRating' => '5',
-        'namePerson' => 'Max',
+        'namePerson' => '',         // Beispiel: 'Max'
         'datePublished' => '',
     ],
 
     'aggregateRating' => [
-        'ratingValue' => '5',
+        'ratingValue' => '0',       // Beispiel: '5'
         'bestRating' => '5',
-        'ratingCount' => '10',
+        'ratingCount' => 0,          // Beispiel: 10 (ohne Anzahl wird kein aggregateRating ausgegeben)
     ],
 
     'product' => [
-        'brand' => 'brand',
+        'brand' => '',              // Beispiel: 'brand'
     ],
 
     'localBusiness' => [
@@ -44,19 +44,19 @@ return [
         // Straße
         'streetAddress' => '',
         // Öffnungszeiten
-        'openingHours' => 'Mo-Fr 10:00-16:00',
+        'openingHours' => '',   // Beispiel: 'Mo-Fr 10:00-16:00'
         // Telefonnummer
         'telephone' => '',
         // Logo
         'logo' => '',
         // Image
-        'image' => '/img/image.png',
+        'image' => '',          // Beispiel: '/img/image.png'
     ],
 
     'offers' => [
         'price' => '0',                                 // Preis
         'priceCurrency' => 'EUR',                       // Währung "EUR", "USD" usw.
-        'priceValidUntil' => '2025-02-09 18:11:42',     // Bis Wann ist das Angebot gültig
+        // priceValidUntil: bis wann das Angebot gültig ist, z. B. '2025-02-09 18:11:42'. Ohne Wert: heute + 2 Jahre.
         /* availability: Verfügbarkeit
             "Discontinued": Das Produkt ist nicht mehr verfügbar, da es eingestellt wurde.
             "InStock": Das Produkt ist auf Lager und sofort verfügbar.
