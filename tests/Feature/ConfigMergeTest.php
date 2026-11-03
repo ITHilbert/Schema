@@ -318,6 +318,8 @@ final class ConfigMergeTest extends TestCase
     public function test_vendor_publish_kopiert_die_paket_config(): void
     {
         $ziel = config_path('schemaOrg.php');
+        // Das Ziel liegt im eigenen Test-Verzeichnis, nie im geteilten Testbench-Skelett.
+        $this->assertStringNotContainsString('testbench-core', $ziel);
         File::delete($ziel);
 
         try {
