@@ -24,6 +24,10 @@ class FAQ extends SchemaOrg
      */
     public function getSchema()
     {
+        if (empty($this->faqs)) {
+            return '';
+        }
+
         $schema = "\t\t\t".'"FAQPage": {'."\n";
         $schema .= "\t\t\t\t".'"@type": "FAQPage",'."\n";
         $schema .= "\t\t\t\t".'"mainEntity": ['."\n";
